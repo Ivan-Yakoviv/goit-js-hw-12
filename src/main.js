@@ -29,30 +29,16 @@ searchForm.addEventListener("submit", (event) => {
 
     showLoader();
 
-    getPhotos(query)
-        .then(images => {
-            if (images.length === 0) {
-                clearGallery();
-                iziToast.error({
-                    message: 'Sorry, there are no images matching your search query. Please try again!',
-                    messageColor: '#FAFAFB',
-                    backgroundColor: '#EF4040',
-                    iconColor: '#FAFAFB',
-                    position: 'topRight'
-                });
-                input.value = "";
-            } else {
-                renderGallery(images);
-                input.value = "";
-            }
-        })
-        .catch(error => {
-            iziToast.error({
-                title: 'Error',
-                message: error.message
-            });
-        })
-        .finally(() => {
+    try {
+        const images = getPhotos(query);
+        renderGallery(images);
+        input.value = "";
+    } catch (error) {
+        iziToast.error({
+            title: 'Error',
+            message: error.message
+        });
+    } finally {
         hideLoader();
-    });
+    }
 });
