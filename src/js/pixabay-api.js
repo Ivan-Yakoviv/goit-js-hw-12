@@ -19,7 +19,7 @@ export async function getPhotos(query, page = 1, perPage = 15) {
     const url = `${baseUrl}${endPoint}?${params}`;
 
     try {
-        const  data  = await axios(url);
+        const data = await axios(url);
         const totalHits = data.totalHits;
         if (totalHits === 0) {
             iziToast.error({
@@ -36,11 +36,11 @@ export async function getPhotos(query, page = 1, perPage = 15) {
     } catch (error) {
         console.error(error.message);
         iziToast.error({
-                    message: 'An error occurred while fetching images. Please try again later.',
-                    messageColor: '#FAFAFB',
-                    backgroundColor: '#EF4040',
-                    iconColor: '#FAFAFB',
-                    position: 'topRight'
+            message: 'An error occurred while fetching images. Please try again later.',
+            messageColor: '#FAFAFB',
+            backgroundColor: '#EF4040',
+            iconColor: '#FAFAFB',
+            position: 'topRight'
         });
         return [];
     }
