@@ -31,7 +31,7 @@ searchForm.addEventListener("submit", (event) => {
 
     getPhotos(query)
         .then(images => {
-            if (images === 0) {
+            if (images.length === 0) {
                 clearGallery();
                 iziToast.error({
                     message: 'Sorry, there are no images matching your search query. Please try again!',
