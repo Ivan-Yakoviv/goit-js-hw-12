@@ -6,7 +6,8 @@ const gallery = document.querySelector(".gallery");
 let lightbox;
 
 export function renderGallery(images) {
-    gallery.innerHTML = images.map(image => createMarkup(image)).join("");
+    const markup = images.map(image => createMarkup(image)).join("");
+    gallery.insertAdjacentHTML('beforeend', markup);
     if (lightbox) {
         lightbox.refresh();
     } else {

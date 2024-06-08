@@ -1,5 +1,5 @@
 import axios from "axios";
-export async function getPhotos(query) {
+export async function getPhotos(query, page = 1, perPage = 15) {
     const baseUrl = 'https://pixabay.com';
     const endPoint = '/api/';
 
@@ -8,14 +8,16 @@ export async function getPhotos(query) {
         q: `${query}`,
         image_type: "photo",
         orientation: "horizontal",
-        safesearch: "true"
+        safesearch: "true",
+        page: page,
+        per_page: perPage
     });
 
     const url = `${baseUrl}${endPoint}?${params}`;
 
     try {
-        const { data } = await axios(url);
-        return data.hits;
+        const res = await axios(url);
+        return res.data;
     } catch (error) {
         console.error(error.message);
    }

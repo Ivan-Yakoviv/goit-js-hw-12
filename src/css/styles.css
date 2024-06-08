@@ -162,3 +162,7 @@ input:active {
   text-align: center;
   padding-bottom: 0;
 }
+
+.load-more {
+  display: none;
+}
