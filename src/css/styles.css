@@ -165,4 +165,16 @@ input:active {
 
 .load-more {
   display: none;
+  margin: 0 auto;
+  color: #fff;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0.64px;
+  border: none;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  background-color: #4e75ff;
+  width: 91px;
+  height: 40px;
 }

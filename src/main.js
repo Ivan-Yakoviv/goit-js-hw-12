@@ -17,27 +17,28 @@ function hideLoader() {
     loader.style.display = "none";
 }
 
-
+let currentPage = 1;
+let query = '';
 
 searchForm.addEventListener("submit", onSearch);
-loadMore.addEventListener("click", loadMore);
+loadMore.addEventListener("click", onLoadMore);
 
 async function onSearch(event) {
     event.preventDefault();
     
-    const query = input.value.trim();
+    query = input.value.trim();
 
     if (query === "") {
         clearGallery();
         return;
     }
 
-    let page = 1;
+    currentPage = 1;
     const perPage = 15;
     showLoader();
 
     try {
-        const data = await getPhotos(query, page, perPage);
+        const data = await getPhotos(query, currentPage);
 
         if (data.hits.length === 0) {
             clearGallery();
@@ -53,6 +54,7 @@ async function onSearch(event) {
         } else {
             renderGallery(data.hits);
             loadMore.style.display = "flex";
+            loader.style.position = "relative"
         }
     } catch(error) {
             iziToast.error({
@@ -64,13 +66,27 @@ async function onSearch(event) {
     }
 }
 
-async function loadMore() {
-    page += 1;
+async function onLoadMore() {
+    currentPage += 1;
     showLoader();
 
     try {
-        const data = await getPhotos(query, page, perPage);
+        const data = await getPhotos(query, currentPage);
         renderGallery(data.hits);
+
+        const { height: cardHeight } = gallery.firstElementChild.getBoundingClientRect();
+        window.scrollBy({
+            top: cardHeight * 2,
+            behavior: 'smooth'
+        });
+
+        if (data.totalHits <= currentPage * 15) {
+            loadMore.style.display = "none";
+            iziToast.info({
+                title: 'End of Results',
+                message: "We're sorry, but you've reached the end of search results."
+            });
+        }
     } catch (error) {
          iziToast.error({
                 title: 'Error',
