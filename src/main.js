@@ -8,6 +8,7 @@ const input = document.querySelector("input");
 const loader = document.querySelector(".loader");
 const loadMore = document.querySelector(".load-more");
 const gallery = document.querySelector(".gallery");
+const searchBtn = document.querySelector(".search-button")
 
 function showLoader() {
     loader.style.display = "block";
@@ -25,7 +26,8 @@ loadMore.addEventListener("click", onLoadMore);
 
 async function onSearch(event) {
     event.preventDefault();
-    
+    clearGallery();
+
     query = input.value.trim();
 
     if (query === "") {
@@ -54,7 +56,15 @@ async function onSearch(event) {
         } else {
             renderGallery(data.hits);
             loadMore.style.display = "flex";
-            loader.style.position = "relative"
+            loader.style.position = "relative";
+            
+            if (data.totalHits <= currentPage * 15) {
+            loadMore.style.display = "none";
+            iziToast.info({
+                title: 'End of Results',
+                message: "We're sorry, but you've reached the end of search results."
+            });
+        }
         }
     } catch(error) {
             iziToast.error({
