@@ -8,7 +8,7 @@ const input = document.querySelector("input");
 const loader = document.querySelector(".loader");
 const loadMore = document.querySelector(".load-more");
 const gallery = document.querySelector(".gallery");
-const searchBtn = document.querySelector(".search-button")
+const scrollToTopBtn = document.querySelector(".scrollToTopBtn")
 
 function showLoader() {
     loader.style.display = "block";
@@ -18,11 +18,19 @@ function hideLoader() {
     loader.style.display = "none";
 }
 
+function scrToTop() {
+     window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+
 let currentPage = 1;
 let query = '';
 
 searchForm.addEventListener("submit", onSearch);
 loadMore.addEventListener("click", onLoadMore);
+scrollToTopBtn.addEventListener("click", scrToTop);
 
 async function onSearch(event) {
     event.preventDefault();
@@ -36,7 +44,6 @@ async function onSearch(event) {
     }
 
     currentPage = 1;
-    const perPage = 15;
     showLoader();
 
     try {
@@ -56,11 +63,13 @@ async function onSearch(event) {
         } else {
             renderGallery(data.hits);
             loadMore.style.display = "flex";
+            scrollToTopBtn.style.display = "flex";
             loader.style.position = "relative";
             
             if (data.totalHits <= currentPage * 15) {
-            loadMore.style.display = "none";
-            iziToast.info({
+                loadMore.style.display = "none";
+                scrollToTopBtn.style.display = "none";
+                iziToast.info({
                 title: 'End of Results',
                 message: "We're sorry, but you've reached the end of search results."
             });
@@ -73,6 +82,7 @@ async function onSearch(event) {
             });
         } finally {
         hideLoader();
+        // scrollToTopBtn.style.display = "flex";
     }
 }
 
