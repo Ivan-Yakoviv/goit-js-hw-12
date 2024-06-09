@@ -60,6 +60,7 @@ async function onSearch(event) {
             });
             input.value = "";
             loadMore.style.display = "none";
+            scrollToTopBtn.style.display = "none";
         } else {
             renderGallery(data.hits);
             loadMore.style.display = "flex";
